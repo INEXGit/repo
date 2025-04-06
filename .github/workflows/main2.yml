@@ -1,0 +1,32 @@
+name: Anything
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ssh-setup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install SSH
+      run: |
+        sudo apt update
+        sudo apt install -y openssh-server
+
+    - name: Start SSH service
+      run: |
+        sudo systemctl enable ssh
+        sudo systemctl start ssh
+
+    - name: Display SSH status
+      run: sudo systemctl status ssh
+
+    - name: Show Data
+      run: |
+        sudo ifconfig
+        sudo curl ifconfig.me
